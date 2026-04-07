@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 Rate Me</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg,#000000,#1a1a2e,#16213e);
+  color: white;
+}
+
+/* Admin button */
+.admin-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid #ff7eb3;
+  background: transparent;
+  color: #ff7eb3;
+}
+
+/* Container */
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  margin-top: 60px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255,126,179,0.4);
+}
+
+h1 {
+  text-align: center;
+  color: #ff7eb3;
+}
+
+/* Fields */
+.field {
+  margin-top: 15px;
+}
+
+.field p {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #ff7eb3;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 5px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+textarea {
+  resize: none;
+}
+
+/* Button */
+button.submit {
+  margin-top: 15px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(45deg,#ff7eb3,#ff4e9b);
+  color: white;
+  font-size: 16px;
+}
+
+/* Glow effect */
+button.submit:hover {
+  box-shadow: 0 0 15px #ff7eb3;
+}
+</style>
+</head>
+
+<body>
+
+<button class="admin-btn" onclick="adminLogin()">Admin</button>
+
+<div class="container">
+<h1>🌸 Rate Me</h1>
+
+<input id="name" placeholder="Your Name (optional)">
+
+<div class="field">
+  <p>👀 Eyes (describe)</p>
+  <input id="eyes" placeholder="How are my eyes?">
+</div>
+
+<div class="field">
+  <p>💇 Hair (describe)</p>
+  <input id="hair" placeholder="How is my hair?">
+</div>
+
+<div class="field">
+  <p>🖐 Hands (describe)</p>
+  <input id="hands" placeholder="How are my hands?">
+</div>
+
+<div class="field">
+  <p>💖 What do you like most in me?</p>
+  <textarea id="best" placeholder="Write here..."></textarea>
+</div>
+
+<div class="field">
+  <p>📝 Overall Feedback</p>
+  <textarea id="feedback" placeholder="Your thoughts..."></textarea>
+</div>
+
+<button class="submit" onclick="send()">Submit 💌</button>
+</div>
+
+<script>
+// 🔥 Firebase config (already added)
+const firebaseConfig = {
+  apiKey: "AIzaSyDHchAe__ToUrxYMTQ0Agx4kDSmUE36bV4",
+  authDomain: "rate-me-3efb9.firebaseapp.com",
+  projectId: "rate-me-3efb9",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 🔥 SEND FUNCTION (FIXED)
+function send() {
+  const name = document.getElementById("name").value;
+  const eyes = document.getElementById("eyes").value;
+  const hair = document.getElementById("hair").value;
+  const hands = document.getElementById("hands").value;
+  const best = document.getElementById("best").value;
+  const feedback = document.getElementById("feedback").value;
+
+  db.collection("feedback").add({
+    name: name || "Anonymous",
+    eyes: eyes || "No comment",
+    hair: hair || "No comment",
+    hands: hands || "No comment",
+    best: best || "Nothing",
+    feedback: feedback || "No feedback"
+  })
+  .then(() => {
+    alert("Submitted 🔥");
+  })
+  .catch(err => {
+    alert("Error: " + err);
+  });
+}
+
+// 🔐 Admin login
+function adminLogin() {
+  let pass = prompt("Enter Admin Password");
+
+  if(pass === "monirul123") {
+    window.location.href = "admin.html";
+  } else {
+    alert("Wrong Password ❌");
+  }
+}
+</script>
+
+</body>
+</html>
